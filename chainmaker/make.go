@@ -1,14 +1,14 @@
 package chains
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"os"
 
-	"github.com/eris-ltd/eris-cli/definitions"
-	"github.com/eris-ltd/eris-cli/util"
+	"github.com/eris-ltd/eris-chainmaker/definitions"
+	"github.com/eris-ltd/eris-chainmaker/util"
 
-	"github.com/eris-ltd/eris-cli/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
-	log "github.com/eris-ltd/eris-cli/Godeps/_workspace/src/github.com/Sirupsen/logrus"
+	// "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
+	log "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
 
 var (
@@ -19,31 +19,6 @@ var (
 	partGroup int      = 25
 	reader    *os.File = os.Stdin
 )
-
-type MintGenesis struct {
-	chain_id   string           `json:"base"`
-	accounts   []*MintAccount   `json:"accounts"`
-	validators []*MintValidator `json:"validators"`
-}
-
-type MintAccount struct {
-	address     string                  `json:"address"`
-	amount      int                     `json:"amount"`
-	name        string                  `json:"name"`
-	permissions *MintAccountPermissions `json:"permissions"`
-}
-
-type MintValidator struct {
-	PubKey   []interface{}   `json:"pub_key"`
-	Name     string          `json:"name"`
-	Amount   int             `json:"amount"`
-	UnbondTo []*MintTxOutput `json:"unbond_to"`
-}
-
-type MintTxOutput struct {
-	address string `json:"address"`
-	amount  int    `json:"amount"`
-}
 
 func MakeChain(do *definitions.Do) error {
 	return makeWizard(do)
@@ -92,21 +67,22 @@ func makeWizard(do *definitions.Do) error {
 }
 
 func makeWithoutManual(name string, rootGroup, rootGroupTokens, devsGroup, devsGroupTokens, valsGroup, valsGroupTokens, partGroup, partGroupTokens int) error {
-	genesis := &MintGenesis{}
-	genesis.chain_id = name
+	genesis := &definitions.MintGenesis{}
+	genesis.ChainID = name
 
 	// assemble
 
 	return writeFile(name, genesis)
 }
 
-func makeAccount() (string, *MintAccount, error) {
-	account := &MintAccount{}
+func makeAccount() (string, *definitions.MintAccount, error) {
+	account := &definitions.MintAccount{}
 	// reset the writers....
 	// keys :=
-	doRoot := definitions.NowDo()
-	doRoot.Name = strings.Split(uuid.New(), "-")[0]
+	// doRoot := definitions.NowDo()
+	// doRoot.Name = strings.Split(uuid.New(), "-")[0]
 	// doRoot.Service.Image =
+	return "", account, nil
 }
 
 func makeWithManual(name string, rootGroup, rootGroupTokens, devsGroup, devsGroupTokens, valsGroup, valsGroupTokens, partGroup, partGroupTokens int) error {
@@ -126,9 +102,10 @@ func assembleGroup(question, tokenQuestion string, defalt int, tokenIze bool) (i
 	return groupNumber, groupTokens, nil
 }
 
-func writeFile(name string, genesis *MintGenesis) error {
-	fileBytes := json.MarshalIndent(genesis, "", "    ")
+func writeFile(name string, genesis *definitions.MintGenesis) error {
+	// fileBytes := json.MarshalIndent(genesis, "", "    ")
 	// write
+	return nil
 }
 
 func dryRun() error {

@@ -1,0 +1,34 @@
+{
+	"ImportPath": "github.com/eris-ltd/eris-chainmaker",
+	"GoVersion": "go1.5",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.8.7-55-gf7f79f7",
+			"Rev": "f7f79f729e0fbe2fcc061db48a9ba0263f588252"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/common/go/common",
+			"Rev": "2804b1f28fdaa71a534db5508674cbc899f95002"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/common/go/log",
+			"Rev": "2804b1f28fdaa71a534db5508674cbc899f95002"
+		},
+		{
+			"ImportPath": "github.com/mitchellh/go-homedir",
+			"Rev": "df55a15e5ce646808815381b3db47a8c66ea62f4"
+		},
+		{
+			"ImportPath": "github.com/spf13/cobra",
+			"Rev": "8e91712f174ced10270cf66615e0a9127e7c4de5"
+		},
+		{
+			"ImportPath": "github.com/spf13/pflag",
+			"Rev": "08b1a584251b5b62f458943640fc8ebd4d50aaa5"
+		}
+	]
+}

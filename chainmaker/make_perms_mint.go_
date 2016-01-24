@@ -5,37 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	. "github.com/eris-ltd/eris-cli/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
-)
-
-// A particular permission
-type MintPermFlag uint64
-
-// Base permission references are like unix (the index is already bit shifted)
-const (
-	// chain permissions
-	MintRoot           MintPermFlag = 1 << iota // 1
-	MintSend                                    // 2
-	MintCall                                    // 4
-	MintCreateContract                          // 8
-	MintCreateAccount                           // 16
-	MintBond                                    // 32
-	MintName                                    // 64
-
-	// moderator permissions
-	MintHasBase
-	MintSetBase
-	MintUnsetBase
-	MintSetGlobal
-	MintHasRole
-	MintAddRole
-	MintRmRole
-
-	MintNumPermissions uint = 14 // NOTE Adjust this too. We can support upto 64
-
-	MintTopPermFlag  MintPermFlag = 1 << (MintNumPermissions - 1)
-	MintAllPermFlags MintPermFlag = MintTopPermFlag | (MintTopPermFlag - 1)
-	// MintDefaultPermFlags MintPermFlag = Send | Call | CreateContract | CreateAccount | Bond | Name | HasBase | HasRole
+	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
 )
 
 // var (
@@ -52,15 +22,6 @@ const (
 // 	}
 // )
 
-// Base chain permissions struct
-type MintBasePermissions struct {
-	// bit array with "has"/"doesn't have" for each permission
-	MintPerms MintPermFlag `json:"perms"`
-
-	// bit array with "set"/"not set" for each permission (not-set should fall back to global)
-	MintSetBit MintPermFlag `json:"set"`
-}
-
 // Set a permission bit. Will set the permission's set bit to true.
 func (p *MintBasePermissions) Set(ty MintPermFlag, value bool) error {
 	if ty == 0 {
@@ -73,11 +34,6 @@ func (p *MintBasePermissions) Set(ty MintPermFlag, value bool) error {
 		p.MintPerms &= ^ty
 	}
 	return nil
-}
-
-type MintAccountPermissions struct {
-	MintBase  MintBasePermissions `json:"base"`
-	MintRoles []string            `json:"roles"`
 }
 
 func MintPermStringToFlag(perm string) (pf PermFlag, err error) {
