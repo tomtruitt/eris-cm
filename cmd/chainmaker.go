@@ -106,9 +106,9 @@ func MakeChain(cmd *cobra.Command, args []string) {
 
 func Archive(cmd *cobra.Command, args []string) {
 	if do.Tarball {
-		// IfExit(util.Tarball(do))
+		IfExit(util.Tarball(do))
 	} else if do.Zip {
-		// IfExit(util.Zip(do))
+		IfExit(util.Zip(do))
 	}
 }
 
