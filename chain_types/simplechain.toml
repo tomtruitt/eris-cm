@@ -3,6 +3,13 @@
 
 name = "simplechain"
 
+definition = """
+A simple chain type will build a single node chain. This chain type is useful
+for quick and easy prototyping. It should not be used for anything more than
+the most simple prototyping as it only has one node and the keys to that node
+could get lost or compromised and the chain would thereafter become useless.
+"""
+
 [account_types]
 Developer = 0
 Participant = 0

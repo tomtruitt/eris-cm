@@ -44,13 +44,13 @@ Complete documentation is available at https://docs.erisindustries.com
 }
 
 func Execute() {
-	InitErisChainMaker()
+	InitErisChainManager()
 	AddGlobalFlags()
 	AddCommands()
 	ErisCMCmd.Execute()
 }
 
-func InitErisChainMaker() {
+func InitErisChainManager() {
 	do = definitions.NowDo()
 }
 
