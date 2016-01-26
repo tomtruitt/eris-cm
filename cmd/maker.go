@@ -52,11 +52,11 @@ func buildMakerCommand() {
 // Define the persistent commands (globals)
 func AddMakerFlags() {
 	MakerCmd.PersistentFlags().StringVarP(&keysAddr, "keys-server", "k", defaultKeys(), "keys server which should be used to generate keys; default respects $ERIS_KEYS_PATH")
-	MakerCmd.PersistentFlags().StringSliceVarP(&do.AccountTypes, "account-types", "t", defaultActTypes(), "what number of account types should we use? find these in ~/.eris/chains/account_types; incompatible with and overrides chain-type; default respects $ERIS_CHAINMAKER_ACCOUNTTYPES")
-	MakerCmd.PersistentFlags().StringVarP(&do.ChainType, "chain-type", "c", defaultChainType(), "which chain type definition should we use? find these in ~/.eris/chains/chain_types; default respects $ERIS_CHAINMAKER_CHAINTYPE")
-	MakerCmd.PersistentFlags().StringVarP(&do.CSV, "csv-file", "s", defaultCsvFiles(), "csv file in the form `account-type,number,tokens,toBond,perms; default respects $ERIS_CHAINMAKER_CSVFILE")
-	MakerCmd.PersistentFlags().BoolVarP(&do.Tarball, "tar", "r", defaultTarball(), "instead of making directories in ~/.chains, make tarballs; incompatible with and overrides zip; default respects $ERIS_CHAINMAKER_TARBALLS")
-	MakerCmd.PersistentFlags().BoolVarP(&do.Zip, "zip", "z", defaultZip(), "instead of making directories in ~/.chains, make zip files; default respects $ERIS_CHAINMAKER_ZIPFILES")
+	MakerCmd.PersistentFlags().StringSliceVarP(&do.AccountTypes, "account-types", "t", defaultActTypes(), "what number of account types should we use? find these in ~/.eris/chains/account_types; incompatible with and overrides chain-type; default respects $ERIS_CHAINMANAGER_ACCOUNTTYPES")
+	MakerCmd.PersistentFlags().StringVarP(&do.ChainType, "chain-type", "c", defaultChainType(), "which chain type definition should we use? find these in ~/.eris/chains/chain_types; default respects $ERIS_CHAINMANAGER_CHAINTYPE")
+	MakerCmd.PersistentFlags().StringVarP(&do.CSV, "csv-file", "s", defaultCsvFiles(), "csv file in the form `account-type,number,tokens,toBond,perms; default respects $ERIS_CHAINMANAGER_CSVFILE")
+	MakerCmd.PersistentFlags().BoolVarP(&do.Tarball, "tar", "r", defaultTarball(), "instead of making directories in ~/.chains, make tarballs; incompatible with and overrides zip; default respects $ERIS_CHAINMANAGER_TARBALLS")
+	MakerCmd.PersistentFlags().BoolVarP(&do.Zip, "zip", "z", defaultZip(), "instead of making directories in ~/.chains, make zip files; default respects $ERIS_CHAINMANAGER_ZIPFILES")
 }
 
 //----------------------------------------------------
@@ -73,6 +73,9 @@ func MakeChain(cmd *cobra.Command, args []string) {
 }
 
 func Archive(cmd *cobra.Command, args []string) {
+	if do.Output {
+		IfExit(util.SaveAccountResults(do))
+	}
 	if do.Tarball {
 		IfExit(util.Tarball(do))
 	} else if do.Zip {
@@ -88,21 +91,21 @@ func defaultKeys() string {
 }
 
 func defaultChainType() string {
-	return setDefaultString("ERIS_CHAINMAKER_CHAINTYPE", "")
+	return setDefaultString("ERIS_CHAINMANAGER_CHAINTYPE", "")
 }
 
 func defaultActTypes() []string {
-	return setDefaultStringSlice("ERIS_CHAINMAKER_ACCOUNTTYPES", []string{})
+	return setDefaultStringSlice("ERIS_CHAINMANAGER_ACCOUNTTYPES", []string{})
 }
 
 func defaultCsvFiles() string {
-	return setDefaultString("ERIS_CHAINMAKER_CSVFILE", "")
+	return setDefaultString("ERIS_CHAINMANAGER_CSVFILE", "")
 }
 
 func defaultTarball() bool {
-	return setDefaultBool("ERIS_CHAINMAKER_TARBALLS", false)
+	return setDefaultBool("ERIS_CHAINMANAGER_TARBALLS", false)
 }
 
 func defaultZip() bool {
-	return setDefaultBool("ERIS_CHAINMAKER_ZIPFILES", false)
+	return setDefaultBool("ERIS_CHAINMANAGER_ZIPFILES", false)
 }

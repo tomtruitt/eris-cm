@@ -15,6 +15,52 @@ import (
 	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
 )
 
+func SaveAccountResults(do *definitions.Do) error {
+	addrFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "addresses.csv"))
+	if err != nil {
+		return err
+	}
+	defer addrFile.Close()
+
+	actFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "accounts.csv"))
+	if err != nil {
+		return err
+	}
+	defer actFile.Close()
+
+	valFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "validators.csv"))
+	if err != nil {
+		return err
+	}
+	defer valFile.Close()
+
+	for _, account := range do.Accounts {
+		_, err := addrFile.WriteString(fmt.Sprintf("%s,%s\n", account.Address, account.Name))
+		if err != nil {
+			return err
+		}
+		_, err = actFile.WriteString(fmt.Sprintf("%s,%d,%s,%d,%d\n", account.PubKey, account.Tokens, account.Name, account.MintPermissions.MintBase.MintPerms, account.MintPermissions.MintBase.MintSetBit))
+		if err != nil {
+			return err
+		}
+		if account.Validator {
+			_, err = valFile.WriteString(fmt.Sprintf("%s,%d,%s,%d,%d\n", account.PubKey, account.ToBond, account.Name, account.MintPermissions.MintBase.MintPerms, account.MintPermissions.MintBase.MintSetBit))
+			if err != nil {
+				return err
+			}
+		}
+	}
+	addrFile.Sync()
+	actFile.Sync()
+	valFile.Sync()
+
+	log.WithField("path", addrFile.Name()).Debug("Saving File.")
+	log.WithField("path", actFile.Name()).Debug("Saving File.")
+	log.WithField("path", valFile.Name()).Debug("Saving File.")
+
+	return nil
+}
+
 // ensures that the files which are included in this repository (`defaultTyps`) are also
 // present in the user's .eris/chains/account_types directory.
 //

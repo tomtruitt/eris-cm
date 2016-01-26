@@ -60,19 +60,24 @@ func AddCommands() {
 }
 
 func AddGlobalFlags() {
-	ErisCMCmd.PersistentFlags().BoolVarP(&do.Verbose, "verbose", "v", defaultVerbose(), "verbose output; more output than no output flags; less output than debug level; default respects $ERIS_CHAINMAKER_VERBOSE")
-	ErisCMCmd.PersistentFlags().BoolVarP(&do.Debug, "debug", "d", defaultDebug(), "debug level output; the most output available for eris-cm; if it is too chatty use verbose flag; default respects $ERIS_CHAINMAKER_DEBUG")
+	ErisCMCmd.PersistentFlags().BoolVarP(&do.Verbose, "verbose", "v", defaultVerbose(), "verbose output; more output than no output flags; less output than debug level; default respects $ERIS_CHAINMANAGER_VERBOSE")
+	ErisCMCmd.PersistentFlags().BoolVarP(&do.Debug, "debug", "d", defaultDebug(), "debug level output; the most output available for eris-cm; if it is too chatty use verbose flag; default respects $ERIS_CHAINMANAGER_DEBUG")
+	ErisCMCmd.PersistentFlags().BoolVarP(&do.Output, "output", "o", defaultOutput(), "should eris-cm provide an output of its job; default respects $ERIS_CHAINMANAGER_OUTPUT")
 }
 
 // ---------------------------------------------------
 // Defaults
 
 func defaultVerbose() bool {
-	return setDefaultBool("ERIS_CHAINMAKER_VERBOSE", false)
+	return setDefaultBool("ERIS_CHAINMANAGER_VERBOSE", false)
 }
 
 func defaultDebug() bool {
-	return setDefaultBool("ERIS_CHAINMAKER_DEBUG", false)
+	return setDefaultBool("ERIS_CHAINMANAGER_DEBUG", false)
+}
+
+func defaultOutput() bool {
+	return setDefaultBool("ERIS_CHAINMANAGER_OUTPUT", true)
 }
 
 func setDefaultBool(envVar string, def bool) bool {

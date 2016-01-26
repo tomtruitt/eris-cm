@@ -11,9 +11,10 @@ could get lost or compromised and the chain would thereafter become useless.
 """
 
 [account_types]
+Full = 1
 Developer = 0
 Participant = 0
-Root = 1
+Root = 0
 Validator = 0
 
 [messenger]

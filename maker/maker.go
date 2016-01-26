@@ -76,7 +76,7 @@ func makeWizard(do *definitions.Do) error {
 		}
 	}
 
-	return maker(do.Name, "mint", accountTypes)
+	return maker(do, "mint", accountTypes)
 }
 
 func makeRaw(do *definitions.Do, typ string) error {
@@ -89,16 +89,17 @@ func makeRaw(do *definitions.Do, typ string) error {
 		return err
 	}
 
-	return maker(do.Name, "mint", accountTypes)
+	return maker(do, "mint", accountTypes)
 }
 
-func maker(name, consensus_type string, accountTypes []*definitions.AccountType) error {
-	accounts, err := MakeAccounts(name, consensus_type, accountTypes)
+func maker(do *definitions.Do, consensus_type string, accountTypes []*definitions.AccountType) error {
+	var err error
+	do.Accounts, err = MakeAccounts(do.Name, consensus_type, accountTypes)
 	if err != nil {
 		return err
 	}
 
-	return MakeMintChain(name, accounts)
+	return MakeMintChain(do.Name, do.Accounts)
 }
 
 func assembleTypesWizard(accountT *definitions.AccountType, tokenIze bool) error {
