@@ -28,5 +28,5 @@ deployment:
     branch: master
     commands:
       - tests/build_tool.sh
-      - docker push quay.io/eris/chain_manager
+      - docker push quay.io/eris/eris-cm
       - docs/build.sh master
