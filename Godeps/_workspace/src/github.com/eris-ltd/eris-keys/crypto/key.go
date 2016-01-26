@@ -31,11 +31,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/secp256k1"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/ed25519"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/account"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/secp256k1"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/ed25519"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/account"
 )
 
 type InvalidCurveErr string

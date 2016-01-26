@@ -84,9 +84,9 @@ import (
 	"path"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/golang.org/x/crypto/scrypt" // 2^18 / 8 / 1 uses 256MB memory and approx 1s CPU time on a modern CPU.
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/code.google.com/p/go-uuid/uuid"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/golang.org/x/crypto/scrypt" // 2^18 / 8 / 1 uses 256MB memory and approx 1s CPU time on a modern CPU.
 )
 
 const (

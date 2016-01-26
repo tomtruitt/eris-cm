@@ -13,10 +13,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/Sirupsen/logrus"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/idtools"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/pools"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/system"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/Sirupsen/logrus"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/idtools"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/pools"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/system"
 )
 
 // ChangeType represents the change type.

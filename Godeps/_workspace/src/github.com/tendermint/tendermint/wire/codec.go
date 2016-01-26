@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
+	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
 	"io"
 	"reflect"
 	"time"

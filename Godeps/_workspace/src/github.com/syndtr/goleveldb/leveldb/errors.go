@@ -7,7 +7,7 @@
 package leveldb
 
 import (
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/errors"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/errors"
 )
 
 var (

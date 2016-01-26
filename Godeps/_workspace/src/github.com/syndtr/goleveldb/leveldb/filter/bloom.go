@@ -7,7 +7,7 @@
 package filter
 
 import (
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/util"
 )
 
 func bloomHash(key []byte) uint32 {

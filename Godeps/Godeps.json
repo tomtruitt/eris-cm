@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/eris-ltd/eris-chainmaker",
+	"ImportPath": "github.com/eris-ltd/eris-cm",
 	"GoVersion": "go1.5",
 	"Packages": [
 		"./..."

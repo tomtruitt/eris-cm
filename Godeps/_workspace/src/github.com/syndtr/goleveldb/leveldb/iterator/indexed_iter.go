@@ -7,8 +7,8 @@
 package iterator
 
 import (
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/errors"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/errors"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/util"
 )
 
 // IteratorIndexer is the interface that wraps CommonIterator and basic Get

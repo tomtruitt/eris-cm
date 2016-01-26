@@ -3,7 +3,7 @@ package archive
 import (
 	"os"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/system"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/system"
 )
 
 func statDifferent(oldStat *system.StatT, newStat *system.StatT) bool {

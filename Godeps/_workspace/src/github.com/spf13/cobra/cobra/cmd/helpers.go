@@ -23,7 +23,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/viper"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/viper"
 )
 
 // var BaseDir = ""

@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 	"unsafe"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/inconshreveable/log15/stack"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/inconshreveable/log15/stack"
 )
 
 // A Logger prints its log records by writing to a Handler.

@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cobra"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/cobra"
 )
 
 func printOptions(w io.Writer, cmd *cobra.Command, name string) error {

@@ -5,12 +5,12 @@ MAINTAINER Eris Industries <support@erisindustries.com>
 # dependencies
 
 #-----------------------------------------------------------------------------
-# install eris-chainmaker
+# install eris-cm
 
-ENV REPO $GOPATH/src/github.com/eris-ltd/eris-chainmaker
+ENV REPO $GOPATH/src/github.com/eris-ltd/eris-cm
 COPY . $REPO
-WORKDIR $REPO/cmd/eris-chainmaker
-RUN go build -o /usr/local/bin/eris-chainmaker
+WORKDIR $REPO/cmd/eris-cm
+RUN go build -o /usr/local/bin/eris-cm
 RUN chown --recursive $USER:$USER $REPO
 
 # ----------------------------------------------------------------------------
@@ -24,4 +24,4 @@ RUN chown --recursive $USER:$USER /home/$USER
 VOLUME /home/$USER/.eris
 WORKDIR /home/$USER/.eris
 USER $USER
-ENTRYPOINT ["eris-chainmaker" ]
+ENTRYPOINT ["eris-cm" ]

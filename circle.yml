@@ -20,7 +20,7 @@ dependencies:
 
 test:
   override:
-    - "cd ${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/cmd/eris-chainmaker && go install"
+    - "cd ${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/cmd/eris-cm && go install"
     - "tests/test.sh | tee $CIRCLE_ARTIFACTS/output.log; test ${PIPESTATUS[0]} -eq 0"
 
 deployment:
@@ -28,5 +28,5 @@ deployment:
     branch: master
     commands:
       - tests/build_tool.sh
-      - docker push quay.io/eris/chainmaker
+      - docker push quay.io/eris/chain_manager
       - docs/build.sh master

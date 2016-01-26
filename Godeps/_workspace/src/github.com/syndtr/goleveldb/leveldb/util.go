@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/storage"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/storage"
 )
 
 func shorten(str string) string {

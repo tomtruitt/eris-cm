@@ -30,11 +30,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/kr/pretty"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/mitchellh/mapstructure"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cast"
-	jww "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/kr/pretty"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/mitchellh/mapstructure"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/cast"
+	jww "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/pflag"
 )
 
 var v *Viper

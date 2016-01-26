@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/Sirupsen/logrus"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/Sirupsen/logrus"
 )
 
 // GetTotalUsedFds Returns the number of used File Descriptors by

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/eris-ltd/eris-chainmaker/cmd"
+	"github.com/eris-ltd/eris-cm/cmd"
 )
 
 func main() {

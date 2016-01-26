@@ -14,7 +14,7 @@ import (
 	"crypto/subtle"
 	"io"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/agl/ed25519/edwards25519"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/agl/ed25519/edwards25519"
 )
 
 const (

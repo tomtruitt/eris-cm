@@ -23,7 +23,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	flag "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/pflag"
+	flag "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/pflag"
 )
 
 // Command is just that, a command for your application.

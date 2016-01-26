@@ -1,7 +1,7 @@
 package test
 
 import (
-	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
+	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
 )
 
 // Contract: !bytes.Equal(input, output) && len(input) >= len(output)

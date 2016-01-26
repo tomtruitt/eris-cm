@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/pflag"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/pflag"
 )
 
 const (

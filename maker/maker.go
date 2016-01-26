@@ -1,4 +1,4 @@
-package chainmaker
+package maker
 
 import (
 	"encoding/csv"
@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/definitions"
-	"github.com/eris-ltd/eris-chainmaker/util"
+	"github.com/eris-ltd/eris-cm/definitions"
+	"github.com/eris-ltd/eris-cm/util"
 
-	log "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/Sirupsen/logrus"
+	log "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
 
 var (

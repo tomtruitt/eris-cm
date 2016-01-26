@@ -22,7 +22,7 @@ import (
 	"errors"
 	"unsafe"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto/randentropy"
 )
 
 //#define USE_FIELD_5X64

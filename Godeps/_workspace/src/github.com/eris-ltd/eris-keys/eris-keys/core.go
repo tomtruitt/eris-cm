@@ -13,11 +13,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/crypto"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/code.google.com/p/go.crypto/ripemd160"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/account"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/wire"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/code.google.com/p/go.crypto/ripemd160"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/account"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/wire"
 )
 
 var ErrLocked = fmt.Errorf("account is locked")

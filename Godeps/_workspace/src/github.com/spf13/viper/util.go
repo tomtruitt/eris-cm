@@ -21,11 +21,11 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/BurntSushi/toml"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/magiconair/properties"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cast"
-	jww "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/gopkg.in/yaml.v2"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/BurntSushi/toml"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/magiconair/properties"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/cast"
+	jww "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/jwalterweatherman"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/gopkg.in/yaml.v2"
 )
 
 // Denotes failing to parse configuration file.

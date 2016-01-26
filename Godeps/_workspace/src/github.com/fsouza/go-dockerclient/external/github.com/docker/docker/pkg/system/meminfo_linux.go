@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/units"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/fsouza/go-dockerclient/external/github.com/docker/docker/pkg/units"
 )
 
 // ReadMemInfo retrieves memory statistics of the host system and returns a

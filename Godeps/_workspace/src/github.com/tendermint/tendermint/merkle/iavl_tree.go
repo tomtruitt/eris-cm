@@ -5,9 +5,9 @@ import (
 	"container/list"
 	"sync"
 
-	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
-	dbm "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/db"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/tendermint/tendermint/wire"
+	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/common"
+	dbm "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/db"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/tendermint/tendermint/wire"
 )
 
 /*

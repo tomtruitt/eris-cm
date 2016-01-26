@@ -6,16 +6,16 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/eris-ltd/eris-chainmaker/chainmaker"
-	"github.com/eris-ltd/eris-chainmaker/definitions"
-	"github.com/eris-ltd/eris-chainmaker/util"
-	"github.com/eris-ltd/eris-chainmaker/version"
+	"github.com/eris-ltd/eris-cm/definitions"
+	"github.com/eris-ltd/eris-cm/maker"
+	"github.com/eris-ltd/eris-cm/util"
+	"github.com/eris-ltd/eris-cm/version"
 
-	log "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/Sirupsen/logrus"
-	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
-	logger "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/common/go/log"
-	keys "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/eris-keys"
-	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cobra"
+	log "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
+	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
+	logger "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/common/go/log"
+	keys "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/eris-keys/eris-keys"
+	"github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/cobra"
 )
 
 const VERSION = version.VERSION
@@ -26,7 +26,7 @@ var keysAddr string
 
 // Defining the root command
 var MakerCmd = &cobra.Command{
-	Use:   "eris-chainmaker",
+	Use:   "eris-cm",
 	Short: "The Eris Chain Maker is a utility for easily creating the files necessary to build eris chains",
 	Long: `The Eris Chain Maker is a utility for easily creating the files necessary to build eris chains.
 
@@ -34,11 +34,11 @@ Made with <3 by Eris Industries.
 
 Complete documentation is available at https://docs.erisindustries.com
 ` + "\nVersion:\n  " + VERSION,
-	Example: `$ eris-chainmaker myChain -- will use the chain-making wizard and make your chain named myChain using eris-keys defaults (available via localhost) (interactive)
-$ eris-chainmaker myChain --chain-type=simplechain --  will use the chain type definition files to make your chain named myChain using eris-keys defaults (non-interactive)
-$ eris-chainmaker myChain --account-types=Root:1,Developer:0,Validator:0,Participant:1 -- will use the flag to make your chain named myChain using eris-keys defaults (non-interactive)
-$ eris-chainmaker myChain --account-types=Root:1,Developer:0,Validator:0,Participant:1 --chain-type=simplechain -- account types trump chain types, this command will use the flags to make the chain (non-interactive)
-$ eris-chainmaker myChain --csv /path/to/csv -- will use the csv file to make your chain named myChain using eris-keys defaults (non-interactive)`,
+	Example: `$ eris-cm myChain -- will use the chain-making wizard and make your chain named myChain using eris-keys defaults (available via localhost) (interactive)
+$ eris-cm myChain --chain-type=simplechain --  will use the chain type definition files to make your chain named myChain using eris-keys defaults (non-interactive)
+$ eris-cm myChain --account-types=Root:1,Developer:0,Validator:0,Participant:1 -- will use the flag to make your chain named myChain using eris-keys defaults (non-interactive)
+$ eris-cm myChain --account-types=Root:1,Developer:0,Validator:0,Participant:1 --chain-type=simplechain -- account types trump chain types, this command will use the flags to make the chain (non-interactive)
+$ eris-cm myChain --csv /path/to/csv -- will use the csv file to make your chain named myChain using eris-keys defaults (non-interactive)`,
 
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		// logger stuff
@@ -84,7 +84,7 @@ func InitErisChainMaker() {
 // Define the persistent commands (globals)
 func AddGlobalFlags() {
 	MakerCmd.PersistentFlags().BoolVarP(&do.Verbose, "verbose", "v", defaultVerbose(), "verbose output; more output than no output flags; less output than debug level; default respects $ERIS_CHAINMAKER_VERBOSE")
-	MakerCmd.PersistentFlags().BoolVarP(&do.Debug, "debug", "d", defaultDebug(), "debug level output; the most output available for eris-chainmaker; if it is too chatty use verbose flag; default respects $ERIS_CHAINMAKER_DEBUG")
+	MakerCmd.PersistentFlags().BoolVarP(&do.Debug, "debug", "d", defaultDebug(), "debug level output; the most output available for eris-cm; if it is too chatty use verbose flag; default respects $ERIS_CHAINMAKER_DEBUG")
 	MakerCmd.PersistentFlags().StringVarP(&keysAddr, "keys-server", "k", defaultKeys(), "keys server which should be used to generate keys; default respects $ERIS_KEYS_PATH")
 	MakerCmd.PersistentFlags().StringSliceVarP(&do.AccountTypes, "account-types", "t", defaultActTypes(), "what number of account types should we use? find these in ~/.eris/chains/account_types; incompatible with and overrides chain-type; default respects $ERIS_CHAINMAKER_ACCOUNTTYPES")
 	MakerCmd.PersistentFlags().StringVarP(&do.ChainType, "chain-type", "c", defaultChainType(), "which chain type definition should we use? find these in ~/.eris/chains/chain_types; default respects $ERIS_CHAINMAKER_CHAINTYPE")
@@ -101,7 +101,7 @@ func MakeChain(cmd *cobra.Command, args []string) {
 		IfExit(fmt.Errorf("\n**Note** you sent our marmots the wrong number of arguments.\nPlease send the marmots at least %d argument(s).", argsMin))
 	}
 	do.Name = args[0]
-	IfExit(chainmaker.MakeChain(do))
+	IfExit(maker.MakeChain(do))
 }
 
 func Archive(cmd *cobra.Command, args []string) {

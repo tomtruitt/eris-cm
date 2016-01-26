@@ -1,9 +1,9 @@
-package chainmaker
+package maker
 
 import (
 	"fmt"
 
-	"github.com/eris-ltd/eris-chainmaker/definitions"
+	"github.com/eris-ltd/eris-cm/definitions"
 )
 
 func MintAccountPermissions(perms map[string]int, roles []string) (*definitions.MintAccountPermissions, error) {

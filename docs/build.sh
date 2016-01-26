@@ -3,7 +3,7 @@
 # -------------------------------------------------------------------
 # Set vars (change if used in another repo)
 
-base_name=eris-chainmaker
+base_name=eris-cm
 user_name=eris-ltd
 docs_site=docs.erisindustries.com
 

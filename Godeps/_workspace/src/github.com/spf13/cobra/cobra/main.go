@@ -13,7 +13,7 @@
 
 package main
 
-import "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cobra/cobra/cmd"
+import "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/spf13/cobra/cobra/cmd"
 
 func main() {
 	cmd.Execute()
