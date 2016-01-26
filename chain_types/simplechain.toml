@@ -1,0 +1,17 @@
+# This is a TOML config file.
+# For more information, see https://github.com/toml-lang/toml
+
+name = "simplechain"
+
+[account_types]
+Developer = 0
+Participant = 0
+Root = 1
+Validator = 0
+
+[messenger]
+
+[manager]
+
+[consensus]
+

@@ -13,6 +13,11 @@ WORKDIR $REPO/cmd/eris-chainmaker
 RUN go build -o /usr/local/bin/eris-chainmaker
 RUN chown --recursive $USER:$USER $REPO
 
+# ----------------------------------------------------------------------------
+# mintgen
+
+RUN go get github.com/eris-ltd/mint-client/mintgen
+
 #-----------------------------------------------------------------------------
 # persist data, set user
 RUN chown --recursive $USER:$USER /home/$USER

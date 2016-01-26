@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/spf13/viper"
 )
 
 func init() {

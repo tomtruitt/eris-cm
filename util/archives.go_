@@ -1,0 +1,158 @@
+package util
+
+import (
+	"archive/tar"
+	"bytes"
+	"fmt"
+	"io/ioutil"
+	"path/filepath"
+
+	"github.com/eris-ltd/eris-chainmaker/definitions"
+
+	log "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/Sirupsen/logrus"
+	. "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
+)
+
+func Tarball(do *definitions.Do) error {
+
+
+	paths, err := filepath.Glob(filepath.Join(ChainsPath, do.Name))
+	if err != nil {
+		return err
+	}
+
+	walkFn := func(path string, info os.FileInfo, err error) error {
+	    if info.Mode().IsDir() {
+	        return nil
+	    }
+	    // Because of scoping we can reference the external root_directory variable
+	    new_path := path[len(root_directory):]
+	    if len(new_path) == 0 {
+	        return nil
+	    }
+	    fr, err := os.Open(path)
+	    if err != nil {
+	        return err
+	    }
+	    defer fr.Close()
+
+	    if h, err := tar.FileInfoHeader(info, new_path); err != nil {
+	        log.Fatalln(err)
+	    } else {
+	        h.Name = new_path
+	        if err = tw.WriteHeader(h); err != nil {
+	            log.Fatalln(err)
+	        }
+	    }
+	    if length, err := io.Copy( tw, fr ); err != nil {
+	        log.Fatalln(err)
+	    } else {
+	        fmt.Println(length)
+	    }
+	    return nil
+	}
+
+	if err = filepath.Walk(root_directory, walkFn); err != nil {
+	    return err
+	}
+
+	for _, root_directory := range paths {
+		log.WithFields(log.Fields{
+			"path": root_directory,
+		}).Debug("Making A Tarball")
+
+		// Create a buffer to write our archive to.
+		buf := new(bytes.Buffer)
+
+		// Create a new tar archive.
+		tw := tar.NewWriter(buf)
+
+		// Add some files to the archive.
+		var files = []struct {
+			Name, Body string
+		}{
+			{"readme.txt", "This archive contains some text files."},
+			{"gopher.txt", "Gopher names:\nGeorge\nGeoffrey\nGonzo"},
+			{"todo.txt", "Get animal handling licence."},
+		}
+		for _, file := range files {
+			hdr := &tar.Header{
+				Name: file.Name,
+				Mode: 0600,
+				Size: int64(len(file.Body)),
+			}
+			if err := tw.WriteHeader(hdr); err != nil {
+				log.Fatalln(err)
+			}
+			if _, err := tw.Write([]byte(file.Body)); err != nil {
+				log.Fatalln(err)
+			}
+		}
+		// Make sure to check the error on Close.
+		if err := tw.Close(); err != nil {
+			log.Fatalln(err)
+		}
+		reader, err := archive.Tar(path, compression)
+		if err != nil {
+			return err
+		}
+		defer reader.Close()
+
+		// read the tarball from the archiver
+		b, err := ioutil.ReadAll(reader)
+		if err != nil {
+			return err
+		}
+
+		// write whole the tarball
+		fileP := fmt.Sprintf("%s.tar.gz", path)
+		err = ioutil.WriteFile(fileP, b, 0644)
+		if err != nil {
+			return err
+		}
+		log.WithField("file", fileP).Debug("Tarball Written.")
+	}
+	return nil
+}
+
+// root_directory has been set further up
+walkFn := func(path string, info os.FileInfo, err error) error {
+    if info.Mode().IsDir() {
+        return nil
+    }
+
+    // Because of scoping we can reference the external root_directory variable
+    new_path := path[len(root_directory):]
+    if len(new_path) == 0 {
+        return nil
+    }
+    fr, err := os.Open(path)
+    if err != nil {
+        return err
+    }
+    defer fr.Close()
+
+    if h, err := tar.FileInfoHeader(info, new_path); err != nil {
+        log.Fatalln(err)
+    } else {
+        h.Name = new_path
+        if err = tw.WriteHeader(h); err != nil {
+            log.Fatalln(err)
+        }
+    }
+    if length, err := io.Copy( tw, fr ); err != nil {
+        log.Fatalln(err)
+    } else {
+        fmt.Println(length)
+    }
+    return nil
+}
+
+if err = filepath.Walk(root_directory, walkFn); err != nil {
+    return err
+}
+
+func Zip(do *definitions.Do) error {
+
+	return nil
+}

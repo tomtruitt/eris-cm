@@ -9,9 +9,16 @@ import (
 	log "github.com/eris-ltd/eris-chainmaker/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
 
-func GetStringResponse(question string) (string, error) {
+func GetStringResponse(question string, defalt string, reader *os.File) (string, error) {
+	readr := bufio.NewReader(reader)
+	log.Warn(question)
 
-	return "", nil
+	text, _ := readr.ReadString('\n')
+	text = strings.Replace(text, "\n", "", 1)
+	if text == "" {
+		return defalt, nil
+	}
+	return text, nil
 }
 
 func GetIntResponse(question string, defalt int, reader *os.File) (int, error) {

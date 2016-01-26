@@ -1,3 +1,4 @@
 package version
 
-const VERSION = "0.11.0"
+const NAME = "eris-chainmaker"
+const VERSION = "0.11.1"
