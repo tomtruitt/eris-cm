@@ -20,7 +20,7 @@
 
 # Where are the Things?
 
-base=github.com/eris-ltd/eris-pm
+base=github.com/eris-ltd/eris-cm
 if [ "$CIRCLE_BRANCH" ]
 then
   repo=${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
@@ -35,6 +35,7 @@ branch=${branch/-/_}
 # Other variables
 was_running=0
 test_exit=0
+chains_dir=$HOME/.eris/chains
 
 # ---------------------------------------------------------------------------
 # Needed functionality
@@ -81,7 +82,7 @@ get_uuid() {
   else
     uuid="62d1486f0fe5"
   fi
-  return uuid
+  echo $uuid
 }
 
 test_build() {
@@ -111,16 +112,158 @@ test_setup(){
   echo "Setup complete"
 }
 
+check_test(){
+  # check chain is running
+  chain=( $(eris chains ls --quiet --running | grep $uuid) )
+  if [ ${#chain[@]} -ne 1 ]
+  then
+    echo "chain does not appear to be running"
+    test_exit=1
+  fi
+
+  # check results file exists
+  if [ ! -e "$chains_dir/$uuid/accounts.csv" ]
+  then
+    echo "accounts.csv not present"
+    ls -ls $chains_dir/$uuid
+    test_exit=1
+  fi
+
+  # check genesis.json
+  genOut=$(cat $dir_to_use/genesis.json)
+  genIn=$(eris chains plop $uuid genesis)
+  if [[ "$genOut" != "$genIn" ]]
+  then
+    test_exit=1
+    echo "genesis.json's do not match"
+    echo
+    echo "expected"
+    echo
+    echo $genOut
+    echo
+    echo "received"
+    echo
+    echo $genIn
+  fi
+
+  # check priv_validator
+  privOut=$(cat $dir_to_use/priv_validator.json)
+  privIn=$(eris data exec $uuid "cat /home/eris/.eris/chains/$uuid/priv_validator.json")
+  if [[ "$privOut" != "$privIn" ]]
+  then
+    test_exit=1
+    echo "priv_validator.json's do not match"
+    echo
+    echo "expected"
+    echo
+    echo $privOut
+    echo
+    echo "received"
+    echo
+    echo $privIn
+  fi
+}
+
+run_test(){
+  echo -e "Running Test:\t$@"
+  $@
+  dir_to_use=$chains_dir/$uuid/$direct
+  eris chains new $uuid --dir $uuid/$direct
+  sleep 3
+  eris chains stop -f $uuid
+  eris chains rm -xf $uuid
+  rm -rf $chains_dir/$uuid
+}
+
 perform_tests(){
-# base make a chain
-# make a chain using chaintypes
-# make a chain using flags
-# make a chain using csv
-# add a new account type
-# add a new chain type
-# export/inspect tars
-# export/inspect zips
-# accountFlags > chainTypes > csv
+  echo
+  # simplest test
+  uuid=$(get_uuid)
+  direct=""
+  run_test eris chains make $uuid --account-types=Full:1
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+
+  # more complex flags test
+  uuid=$(get_uuid)
+  direct="$uuid"_validator_000
+  run_test eris chains make $uuid --account-types=Root:2,Developer:2,Participant:2,Validator:1
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+
+  # chain-type test
+  uuid=$(get_uuid)
+  direct=""
+  run_test eris chains make $uuid --chain-type=simplechain
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+
+  # add a new account type
+  uuid=$(get_uuid)
+  direct=""
+  cp $repo/tests/fixtures/tester.toml $chains_dir/account-types/.
+  run_test eris chains make $uuid --account-types=Test:1
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+  rm $chains_dir/account-types/tester.toml
+
+  # add a new chain type
+  uuid=$(get_uuid)
+  direct="$uuid"_full_000
+  cp $repo/tests/fixtures/testchain.toml $chains_dir/chain-types/.
+  run_test eris chains make $uuid --chain-type=testchain
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+  rm $chains_dir/chain-types/testchain.toml
+
+  # export/inspect tars
+  uuid=$(get_uuid)
+  direct=""
+  eris chains make $uuid --account-types=Full:2 --tar
+  if [ $? -ne 0 ]
+  then
+    test_exit=1
+    return 1
+  fi
+  tar -xzf $chains_dir/$uuid/"$uuid"_full_000.tar.gz -C $chains_dir/$uuid/.
+  run_test echo "tar test"
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
+
+  # export/inspect zips
+  # todo
+
+  # make a chain using csv
+  uuid=$(get_uuid)
+  direct=""
+  eris chains make $uuid --account-types=Full:1
+  if [ $? -ne 0 ]
+  then
+    test_exit=1
+    return 1
+  fi
+  rm $chains_dir/$uuid/genesis.json
+  prev_dir=`pwd`
+  cd $chains_dir/$uuid
+  eris chains make $uuid --known --accounts accounts.csv --validators validators.csv > $chains_dir/$uuid/genesis.json
+  run_test echo "known test"
+  cd $prev_dir
+  if [ $test_exit -eq 1 ]
+  then
+    return 1
+  fi
 }
 
 test_teardown(){

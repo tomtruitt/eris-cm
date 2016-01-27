@@ -73,13 +73,13 @@ func MakeChain(cmd *cobra.Command, args []string) {
 }
 
 func Archive(cmd *cobra.Command, args []string) {
-	if do.Output {
-		IfExit(util.SaveAccountResults(do))
-	}
 	if do.Tarball {
 		IfExit(util.Tarball(do))
 	} else if do.Zip {
 		IfExit(util.Zip(do))
+	}
+	if do.Output {
+		IfExit(util.SaveAccountResults(do))
 	}
 }
 

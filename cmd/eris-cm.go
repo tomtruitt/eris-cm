@@ -100,7 +100,7 @@ func setDefaultString(envVar, def string) string {
 func setDefaultStringSlice(envVar string, def []string) []string {
 	env := os.Getenv(envVar)
 	if env != "" {
-		return strings.Split(env, ";")
+		return strings.Split(env, ",")
 	}
 	return def
 }
