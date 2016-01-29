@@ -175,7 +175,12 @@ run_test(){
     return 1
   fi
   dir_to_use=$chains_dir/$uuid/$direct
-  eris chains new $uuid --dir $uuid/$direct
+  eris chains new $uuid --dir $chains_dir/$uuid/$direct
+  if [ $? -ne 0 ]
+  then
+    test_exit=1
+    return 1
+  fi
   sleep 3
   eris chains stop -f $uuid
   eris chains rm -xf $uuid
