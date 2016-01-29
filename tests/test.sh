@@ -105,7 +105,7 @@ test_setup(){
   if [ "$circle" = true ]
   then
     export ERIS_PULL_APPROVE="true"
-    eris init --yes --pull-images=true --testing=true 1>/dev/null
+    eris init --yes --pull-images=true --testing=true #1>/dev/null
   fi
 
   ensure_running keys
