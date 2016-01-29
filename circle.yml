@@ -3,7 +3,7 @@ machine:
     GOPATH: $HOME/.go_workspace
     REPO: ${GOPATH}/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     DOCKER_VERSION: 1.9.1
-    ERIS_CLI_BRANCH: master
+    ERIS_CLI_BRANCH: chainsMake
   post:
     - git config --global user.email "billings@erisindustries.com"
     - git config --global user.name "Billings the Bot"
