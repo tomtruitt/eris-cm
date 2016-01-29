@@ -18,34 +18,39 @@ import (
 func SaveAccountResults(do *definitions.Do) error {
 	addrFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "addresses.csv"))
 	if err != nil {
-		return err
+		return fmt.Errorf("Error creating addresses file. This usually means that there was a problem with the chain making process.")
 	}
 	defer addrFile.Close()
 
+	log.WithField("name", do.Name).Debug("Creating file")
 	actFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "accounts.csv"))
 	if err != nil {
-		return err
+		return fmt.Errorf("Error creating accounts file.")
 	}
+	log.WithField("path", filepath.Join(ChainsPath, do.Name, "accounts.csv")).Debug("File successfully created")
 	defer actFile.Close()
 
 	valFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "validators.csv"))
 	if err != nil {
-		return err
+		return fmt.Errorf("Error creating validators file.")
 	}
 	defer valFile.Close()
 
 	for _, account := range do.Accounts {
 		_, err := addrFile.WriteString(fmt.Sprintf("%s,%s\n", account.Address, account.Name))
 		if err != nil {
+			log.Error("Error writing addresses file.")
 			return err
 		}
 		_, err = actFile.WriteString(fmt.Sprintf("%s,%d,%s,%d,%d\n", account.PubKey, account.Tokens, account.Name, account.MintPermissions.MintBase.MintPerms, account.MintPermissions.MintBase.MintSetBit))
 		if err != nil {
+			log.Error("Error writing accounts file.")
 			return err
 		}
 		if account.Validator {
 			_, err = valFile.WriteString(fmt.Sprintf("%s,%d,%s,%d,%d\n", account.PubKey, account.ToBond, account.Name, account.MintPermissions.MintBase.MintPerms, account.MintPermissions.MintBase.MintSetBit))
 			if err != nil {
+				log.Error("Error writing validators file.")
 				return err
 			}
 		}

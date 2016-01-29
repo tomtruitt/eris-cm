@@ -21,12 +21,16 @@ var (
 func MakeChain(do *definitions.Do) error {
 	switch {
 	case len(do.AccountTypes) != 0:
+		log.Info("Making chain using account type paradigm.")
 		return makeRaw(do, "accounttype")
 	case do.ChainType != "":
+		log.Info("Making chain using chain type paradigm.")
 		return makeRaw(do, "chaintype")
 	case do.CSV != "":
+		log.Info("Making chain using csv type paradigm.")
 		return makeRaw(do, "csv")
 	default:
+		log.Info("Making chain using wizard paradigm.")
 		return makeWizard(do)
 	}
 	return nil
@@ -84,6 +88,7 @@ func makeRaw(do *definitions.Do, typ string) error {
 	if err != nil {
 		return err
 	}
+	log.Debug("Account types loaded.")
 
 	if err := assembleTypesRaw(accountTypes, do, typ); err != nil {
 		return err

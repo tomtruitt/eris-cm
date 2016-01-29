@@ -125,7 +125,9 @@ check_test(){
   if [ ! -e "$chains_dir/$uuid/accounts.csv" ]
   then
     echo "accounts.csv not present"
-    ls -ls $chains_dir/$uuid
+    ls -la $chains_dir/$uuid
+    pwd
+    ls -la $chains_dir
     test_exit=1
   fi
 
@@ -167,6 +169,11 @@ check_test(){
 run_test(){
   echo -e "Running Test:\t$@"
   $@
+  if [ $? -ne 0 ]
+  then
+    test_exit=1
+    return 1
+  fi
   dir_to_use=$chains_dir/$uuid/$direct
   eris chains new $uuid --dir $uuid/$direct
   sleep 3
