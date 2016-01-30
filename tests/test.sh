@@ -23,11 +23,11 @@
 base=github.com/eris-ltd/eris-cm
 if [ "$CIRCLE_BRANCH" ]
 then
-  repo=${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
-  circle=true
+  repo=$HOME/eris-cm
+  ci=true
 else
   repo=$GOPATH/src/$base
-  circle=false
+  ci=false
 fi
 branch=${CIRCLE_BRANCH:=master}
 branch=${branch/-/_}
@@ -65,7 +65,7 @@ early_exit(){
   echo "There was an error duing setup; keys were not properly imported. Exiting."
   if [ "$was_running" -eq 0 ]
   then
-    if [ "$circle" = true ]
+    if [ "$ci" = true ]
     then
       eris services stop keys
     else
@@ -105,7 +105,7 @@ test_build() {
 
 test_setup(){
   echo "Getting Setup"
-  if [ "$circle" = true ]
+  if [ "$ci" = true ]
   then
     export ERIS_PULL_APPROVE="true"
     eris init --yes --pull-images=true --testing=true 1>/dev/null
@@ -122,6 +122,7 @@ check_test(){
   then
     echo "chain does not appear to be running"
     test_exit=1
+    return 1
   fi
 
   # check results file exists
@@ -132,11 +133,12 @@ check_test(){
     pwd
     ls -la $chains_dir
     test_exit=1
+    return 1
   fi
 
   # check genesis.json
-  genOut=$(cat $dir_to_use/genesis.json)
-  genIn=$(eris chains plop $uuid genesis)
+  genOut=$(cat $dir_to_use/genesis.json | sed 's/[[:space:]]//g')
+  genIn=$(eris chains plop $uuid genesis | sed 's/[[:space:]]//g')
   if [[ "$genOut" != "$genIn" ]]
   then
     test_exit=1
@@ -144,16 +146,21 @@ check_test(){
     echo
     echo "expected"
     echo
-    echo $genOut
+    echo -e "$genOut"
     echo
     echo "received"
     echo
-    echo $genIn
+    echo -e "$genIn"
+    echo
+    echo "difference"
+    echo
+    diff  <(echo "$genOut" ) <(echo "$genIn") | colordiff
+    return 1
   fi
 
   # check priv_validator
-  privOut=$(cat $dir_to_use/priv_validator.json)
-  privIn=$(eris data exec $uuid "cat /home/eris/.eris/chains/$uuid/priv_validator.json")
+  privOut=$(cat $dir_to_use/priv_validator.json | tr '\n' ' ' | sed 's/[[:space:]]//g' | set 's/(,\"last_height\":[^0-9]+,\"last_round\":[^0-9]+,\"last_step\":[^0-9]+//g' )
+  privIn=$(eris data exec $uuid "cat /home/eris/.eris/chains/$uuid/priv_validator.json" | tr '\n' ' ' | sed 's/[[:space:]]//g' | set 's/(,\"last_height\":[^0-9]+,\"last_round\":[^0-9]+,\"last_step\":[^0-9]+//g' )
   if [[ "$privOut" != "$privIn" ]]
   then
     test_exit=1
@@ -161,17 +168,20 @@ check_test(){
     echo
     echo "expected"
     echo
-    echo $privOut
+    echo -e "$privOut"
     echo
     echo "received"
     echo
-    echo $privIn
+    echo -e "$privIn"
+    echo
+    echo "difference"
+    echo
+    diff  <(echo "$privOut" ) <(echo "$privIn") | colordiff
+    return 1
   fi
 }
 
 run_test(){
-  echo -e "Running Test:\t$@"
-  $@
   if [ $? -ne 0 ]
   then
     test_exit=1
@@ -184,64 +194,82 @@ run_test(){
     test_exit=1
     return 1
   fi
-  sleep 3
-  eris chains stop -f $uuid
-  eris chains rm -xf $uuid
+  sleep 3 # let 'er boot
+  check_test
+  if [ $? -ne 0 ]
+  then
+    test_exit=1
+  fi
+  eris chains stop --force $uuid
+  if [ ! "$ci" = true ]
+  then
+    eris chains rm --data --file $uuid
+  fi
   rm -rf $chains_dir/$uuid
 }
 
 perform_tests(){
   echo
-  # simplest test
+  echo "simplest test"
   uuid=$(get_uuid)
   direct=""
-  run_test eris chains make $uuid --account-types=Full:1
+  eris chains make $uuid --account-types=Full:1
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
+  echo
 
-  # more complex flags test
+  echo "more complex flags test"
   uuid=$(get_uuid)
   direct="$uuid"_validator_000
-  run_test eris chains make $uuid --account-types=Root:2,Developer:2,Participant:2,Validator:1
+  eris chains make $uuid --account-types=Root:2,Developer:2,Participant:2,Validator:1
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
+  echo
 
-  # chain-type test
+  echo "chain-type test"
   uuid=$(get_uuid)
   direct=""
-  run_test eris chains make $uuid --chain-type=simplechain
+  eris chains make $uuid --chain-type=simplechain
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
+  echo
 
-  # add a new account type
+  echo "add a new account type test"
   uuid=$(get_uuid)
   direct=""
   cp $repo/tests/fixtures/tester.toml $chains_dir/account-types/.
-  run_test eris chains make $uuid --account-types=Test:1
+  eris chains make $uuid --account-types=Test:1
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
   rm $chains_dir/account-types/tester.toml
+  echo
 
-  # add a new chain type
+  echo "add a new chain type test"
   uuid=$(get_uuid)
   direct="$uuid"_full_000
   cp $repo/tests/fixtures/testchain.toml $chains_dir/chain-types/.
-  run_test eris chains make $uuid --chain-type=testchain
+  eris chains make $uuid --chain-type=testchain
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
   rm $chains_dir/chain-types/testchain.toml
+  echo
 
-  # export/inspect tars
+  echo "export/inspect tars"
   uuid=$(get_uuid)
   direct=""
   eris chains make $uuid --account-types=Full:2 --tar
@@ -251,16 +279,17 @@ perform_tests(){
     return 1
   fi
   tar -xzf $chains_dir/$uuid/"$uuid"_full_000.tar.gz -C $chains_dir/$uuid/.
-  run_test echo "tar test"
+  run_test
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
+  echo
 
   # export/inspect zips
   # todo
 
-  # make a chain using csv
+  echo "make a chain using csv test"
   uuid=$(get_uuid)
   direct=""
   eris chains make $uuid --account-types=Full:1
@@ -273,16 +302,17 @@ perform_tests(){
   prev_dir=`pwd`
   cd $chains_dir/$uuid
   eris chains make $uuid --known --accounts accounts.csv --validators validators.csv > $chains_dir/$uuid/genesis.json
-  run_test echo "known test"
+  run_test
   cd $prev_dir
   if [ $test_exit -eq 1 ]
   then
     return 1
   fi
+  echo
 }
 
 test_teardown(){
-  if [ "$circle" = false ]
+  if [ "$ci" = false ]
   then
     echo ""
     if [ "$was_running" -eq 0 ]
