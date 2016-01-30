@@ -2,7 +2,7 @@
 # ----------------------------------------------------------
 # PURPOSE
 
-# This is the build script for eris-chainmakedr. It will build the tool
+# This is the build script for eris-chainmaker. It will build the tool
 # into docker containers in a reliable and predicatable
 # manner.
 
