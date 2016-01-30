@@ -334,7 +334,7 @@ test_teardown(){
 # ---------------------------------------------------------------------------
 # Get the things build and dependencies turned on
 
-echo "Hello! I'm the marmot that tests the eris-cm tooling."
+echo "Hello! I'm the marmot that tests the eris-cm tooling"
 start=`pwd`
 cd $repo
 test_build
