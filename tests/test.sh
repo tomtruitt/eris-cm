@@ -213,7 +213,7 @@ perform_tests(){
   echo "simplest test"
   uuid=$(get_uuid)
   direct=""
-  eris chains make $uuid --account-types=Full:1
+  eris chains make $uuid --data --account-types=Full:1
   run_test
   if [ $test_exit -eq 1 ]
   then
@@ -224,7 +224,7 @@ perform_tests(){
   echo "more complex flags test"
   uuid=$(get_uuid)
   direct="$uuid"_validator_000
-  eris chains make $uuid --account-types=Root:2,Developer:2,Participant:2,Validator:1
+  eris chains make $uuid --data --account-types=Root:2,Developer:2,Participant:2,Validator:1
   run_test
   if [ $test_exit -eq 1 ]
   then
@@ -235,7 +235,7 @@ perform_tests(){
   echo "chain-type test"
   uuid=$(get_uuid)
   direct=""
-  eris chains make $uuid --chain-type=simplechain
+  eris chains make $uuid --data --chain-type=simplechain
   run_test
   if [ $test_exit -eq 1 ]
   then
@@ -247,7 +247,7 @@ perform_tests(){
   uuid=$(get_uuid)
   direct=""
   cp $repo/tests/fixtures/tester.toml $chains_dir/account-types/.
-  eris chains make $uuid --account-types=Test:1
+  eris chains make $uuid --data --account-types=Test:1
   run_test
   if [ $test_exit -eq 1 ]
   then
@@ -260,7 +260,7 @@ perform_tests(){
   uuid=$(get_uuid)
   direct="$uuid"_full_000
   cp $repo/tests/fixtures/testchain.toml $chains_dir/chain-types/.
-  eris chains make $uuid --chain-type=testchain
+  eris chains make $uuid --data --chain-type=testchain
   run_test
   if [ $test_exit -eq 1 ]
   then
@@ -272,7 +272,7 @@ perform_tests(){
   echo "export/inspect tars"
   uuid=$(get_uuid)
   direct=""
-  eris chains make $uuid --account-types=Full:2 --tar
+  eris chains make $uuid --data --account-types=Full:2 --tar
   if [ $? -ne 0 ]
   then
     test_exit=1
@@ -292,7 +292,7 @@ perform_tests(){
   echo "make a chain using csv test"
   uuid=$(get_uuid)
   direct=""
-  eris chains make $uuid --account-types=Full:1
+  eris chains make $uuid --data --account-types=Full:1
   if [ $? -ne 0 ]
   then
     test_exit=1
@@ -301,7 +301,7 @@ perform_tests(){
   rm $chains_dir/$uuid/genesis.json
   prev_dir=`pwd`
   cd $chains_dir/$uuid
-  eris chains make $uuid --known --accounts accounts.csv --validators validators.csv > $chains_dir/$uuid/genesis.json
+  eris chains make $uuid --data --known --accounts accounts.csv --validators validators.csv > $chains_dir/$uuid/genesis.json
   run_test
   cd $prev_dir
   if [ $test_exit -eq 1 ]
