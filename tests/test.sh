@@ -121,6 +121,8 @@ check_test(){
   if [ ${#chain[@]} -ne 1 ]
   then
     echo "chain does not appear to be running"
+    echo
+    ls -la $dir_to_use
     test_exit=1
     return 1
   fi
@@ -300,8 +302,8 @@ perform_tests(){
   fi
   rm $chains_dir/$uuid/genesis.json
   prev_dir=`pwd`
-  cd $chains_dir/$uuid
-  eris chains make $uuid --known --accounts accounts.csv --validators validators.csv > $chains_dir/$uuid/genesis.json
+  gen=$(eris chains make $uuid --known --accounts accounts.csv --validators validators.csv)
+  echo "$gen" > $chains_dir/$uuid/genesis.json
   run_test
   cd $prev_dir
   if [ $test_exit -eq 1 ]
