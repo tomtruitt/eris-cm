@@ -23,7 +23,7 @@
 base=github.com/eris-ltd/eris-cm
 if [ "$CIRCLE_BRANCH" ]
 then
-  repo=$HOME/eris-cm
+  repo=`pwd`
   ci=true
 else
   repo=$GOPATH/src/$base
