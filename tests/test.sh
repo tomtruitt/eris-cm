@@ -207,6 +207,7 @@ run_test(){
   then
     eris chains rm --file $uuid
   fi
+  rm -rf $HOME/.eris/scratch/data/$uuid
   rm -rf $chains_dir/$uuid
 }
 
@@ -316,13 +317,13 @@ perform_tests(){
 test_teardown(){
   if [ "$ci" = false ]
   then
-    echo ""
+    echo
     if [ "$was_running" -eq 0 ]
     then
       eris services stop -rx keys
     fi
+    echo
   fi
-  echo ""
   if [ "$test_exit" -eq 0 ]
   then
     echo "Tests complete! Tests are Green. :)"
@@ -341,6 +342,7 @@ start=`pwd`
 cd $repo
 test_build
 test_setup
+echo
 
 # ---------------------------------------------------------------------------
 # Go!
