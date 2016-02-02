@@ -79,7 +79,8 @@ type ChainT struct {
 }
 
 func generateAccountTypes() {
-	generatedFile := filepath.Join(filepath.Join(common.ErisGo), "eris-cm", "docs", "account_types.md")
+	dir, _ := os.Getwd()
+	generatedFile := filepath.Join(dir, "docs", "account_types.md")
 	accountDescriptions := []string{"# Default eris chains Account Types", ACCOUNT_TYPES_INTRO}
 	accountTypeFiles, _ := filepath.Glob(filepath.Join(common.ErisGo, "eris-cm", "account_types", "*"))
 	for _, file := range accountTypeFiles {
@@ -95,7 +96,8 @@ func generateAccountTypes() {
 }
 
 func generateChainTypes() {
-	generatedFile := filepath.Join(filepath.Join(common.ErisGo), "eris-cm", "docs", "chain_types.md")
+	dir, _ := os.Getwd()
+	generatedFile := filepath.Join(dir, "docs", "chain_types.md")
 	chainDescriptions := []string{"# Default eris chains Chain Types", CHAIN_TYPES_INTRO}
 	chainTypeFiles, _ := filepath.Glob(filepath.Join(common.ErisGo, "eris-cm", "chain_types", "*"))
 	for _, file := range chainTypeFiles {
