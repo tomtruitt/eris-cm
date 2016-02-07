@@ -20,17 +20,29 @@
 
 # Where are the Things?
 
-base=github.com/eris-ltd/eris-cm
+name=eris-cm
+base=github.com/eris-ltd/$name
+repo=`pwd`
 if [ "$CIRCLE_BRANCH" ]
 then
-  repo=`pwd`
   ci=true
+  linux=true
+elif [ "$TRAVIS_BRANCH" ]
+then
+  ci=true
+  osx=true
+elif [ "$APPVEYOR_REPO_BRANCH" ]
+then
+  ci=true
+  win=true
 else
   repo=$GOPATH/src/$base
   ci=false
 fi
+
 branch=${CIRCLE_BRANCH:=master}
 branch=${branch/-/_}
+branch=${branch/\//_}
 
 # Other variables
 was_running=0
@@ -107,7 +119,6 @@ test_setup(){
   echo "Getting Setup"
   if [ "$ci" = true ]
   then
-    export ERIS_PULL_APPROVE="true"
     eris init --yes --pull-images=true --testing=true 1>/dev/null
   fi
 
