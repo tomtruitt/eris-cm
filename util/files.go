@@ -15,6 +15,13 @@ import (
 	. "github.com/eris-ltd/eris-cm/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
 )
 
+// XXX: this is temporary until eris-keys.js is more tightly integrated with eris-contracts.js
+type accountInfo struct {
+	Address string `mapstructure:"address" json:"address" yaml:"address" toml:"address"`
+	PubKey  string `mapstructure:"pubKey" json:"pubKey" yaml:"pubKey" toml:"pubKey"`
+	PrivKey string `mapstructure:"privKey" json:"privKey" yaml:"privKey" toml:"privKey"`
+}
+
 func SaveAccountResults(do *definitions.Do) error {
 	addrFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "addresses.csv"))
 	if err != nil {
@@ -30,13 +37,29 @@ func SaveAccountResults(do *definitions.Do) error {
 	log.WithField("path", filepath.Join(ChainsPath, do.Name, "accounts.csv")).Debug("File successfully created")
 	defer actFile.Close()
 
+	log.WithField("name", do.Name).Debug("Creating file")
+	actJSONFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "accounts.json"))
+	if err != nil {
+		return fmt.Errorf("Error creating accounts file.")
+	}
+	log.WithField("path", filepath.Join(ChainsPath, do.Name, "accounts.json")).Debug("File successfully created")
+	defer actJSONFile.Close()
+
 	valFile, err := os.Create(filepath.Join(ChainsPath, do.Name, "validators.csv"))
 	if err != nil {
 		return fmt.Errorf("Error creating validators file.")
 	}
 	defer valFile.Close()
 
+	accountJsons := make(map[string]*accountInfo)
+
 	for _, account := range do.Accounts {
+		accountJsons[account.Name] = &accountInfo{
+			Address: account.Address,
+			PubKey:  account.PubKey,
+			PrivKey: account.MintKey.PrivKey[1].(string),
+		}
+
 		_, err := addrFile.WriteString(fmt.Sprintf("%s,%s\n", account.Address, account.Name))
 		if err != nil {
 			log.Error("Error writing addresses file.")
@@ -59,6 +82,17 @@ func SaveAccountResults(do *definitions.Do) error {
 	actFile.Sync()
 	valFile.Sync()
 
+	j, err := json.MarshalIndent(accountJsons, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	_, err = actJSONFile.Write(j)
+	if err != nil {
+		return err
+	}
+
+	log.WithField("path", actJSONFile.Name()).Debug("Saving File.")
 	log.WithField("path", addrFile.Name()).Debug("Saving File.")
 	log.WithField("path", actFile.Name()).Debug("Saving File.")
 	log.WithField("path", valFile.Name()).Debug("Saving File.")

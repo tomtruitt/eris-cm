@@ -216,7 +216,7 @@ run_test(){
   eris chains stop --force $uuid
   if [ ! "$ci" = true ]
   then
-    eris chains rm --file $uuid
+    eris chains rm --file --data $uuid
   fi
   rm -rf $HOME/.eris/scratch/data/$uuid
   rm -rf $chains_dir/$uuid
