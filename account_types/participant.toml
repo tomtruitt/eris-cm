@@ -5,7 +5,7 @@ name = "Participant"
 
 definition = """
 Users who have a key which is registered with participant privileges can send
-tokes; call contracts; and use the name registry
+tokens; call contracts; and use the name registry
 """
 
 typical_user = """
