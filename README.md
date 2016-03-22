@@ -93,7 +93,7 @@ Are Welcome! Before submitting a pull request please:
 * pull request
 * be awesome
 
-That's pretty much it (for now).
+For details, please see our [coding standards](https://github.com/eris-ltd/coding/tree/master/github).
 
 Please note that this repository is GPLv3.0 per the LICENSE file. Any code which is contributed via pull request shall be deemed to have consented to GPLv3.0 via submission of the code (were such code accepted into the repository).
 
